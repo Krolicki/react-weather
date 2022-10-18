@@ -1,23 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import { Search } from './components/search/Search';
+import { Weather } from './components/search/weather/Weather';
 
 function App() {
+
+  const handleOnSearch = (query) => {
+    console.log(query)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <Search onSearch={handleOnSearch}/>
+      <Weather />
     </div>
   );
 }
