@@ -1,0 +1,45 @@
+.weather-container{
+    margin-top: 30px;
+}
+.weather-head{
+    display: flex;
+    align-items: center;
+}
+
+.weather-icon-temperature{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+}
+
+.weather-icon-temperature p{
+    font-size: 3rem;
+    margin: 0;
+}
+
+.icon{
+    max-height: 100%;
+}
+
+.weather-info{
+    color: rgb(143, 148, 154);
+    margin-left: 20px;
+    font-size: .6rem;
+    line-height: .4rem;
+}
+
+.weather-city{
+    margin-left: auto;
+    text-align: right;
+}
+
+.weather-city h3{
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.weather-city p{
+    color: rgb(143, 148, 154);
+    margin: 0;
+}

@@ -1,0 +1,14 @@
+.search-input{
+    width: 100%;
+    background: rgb(48, 49, 52);
+    color: white;
+    padding: 1rem 1.5rem;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    font-size: 2rem;
+}
+
+.search-input:hover{
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.402);
+}
