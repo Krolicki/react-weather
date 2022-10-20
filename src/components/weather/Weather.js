@@ -1,7 +1,7 @@
 import "./Weather.css"
 import {BsFillCloudSunFill} from 'react-icons/bs'
 
-export const Weather = () => {
+export const Weather = ({data}) => {
     return(
         <div className="weather-container">
             <div className="weather-head">
