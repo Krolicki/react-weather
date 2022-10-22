@@ -11,8 +11,8 @@ export const Forecast = ({data}) => {
     const assingnDays = () => {
         let daysTemp = []
         let dayName = "",
-            maxTemp = 0,
-            minTemp = 0
+            maxTemp = Number.MIN_VALUE,
+            minTemp = Number.MAX_VALUE
         data.list.forEach((day, index) => {
             if(index === 0 || day.dt_txt.slice(8,10) === data.list[index-1].dt_txt.slice(8,10)){
                 dayName = getDayName(day.dt_txt)
@@ -24,8 +24,8 @@ export const Forecast = ({data}) => {
             else{
                 daysTemp.push({dayName, maxTemp, minTemp})
                 dayName = ""
-                maxTemp = 0
-                minTemp = 0
+                maxTemp = Number.MIN_VALUE
+                minTemp = Number.MAX_VALUE
             }
         })
         setForecastDays(daysTemp)
@@ -34,6 +34,7 @@ export const Forecast = ({data}) => {
     useEffect(()=>{
         assingnDays()
     },[])
+    console.log(forecastDays)
 
 
     return(
