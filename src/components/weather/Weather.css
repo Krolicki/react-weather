@@ -1,5 +1,5 @@
 .weather-container{
-    margin-top: 30px;
+    margin-top: 20px;
 }
 .weather-head{
     display: flex;
@@ -25,17 +25,18 @@
 .weather-info{
     color: rgb(143, 148, 154);
     margin-left: 20px;
-    font-size: .6rem;
-    line-height: .4rem;
+    font-size: 12px;
+    line-height: .27rem;
 }
 
 .weather-city{
     margin-left: auto;
     text-align: right;
+    margin-right: 20px;
 }
 
 .weather-city h3{
-    font-size: 22px;
+    font-size: 32px;
     font-weight: 300;
     margin: 0;
 }

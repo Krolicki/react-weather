@@ -11,12 +11,12 @@ export const Search = ({onSearch}) => {
     }
 
     const handleTyping = useMemo(
-        () => debounce(changeValue, 1000)
+        () => debounce(changeValue, 3000)
     ,[])
 
     return (
         <input 
-            placeholder="Search weather..."
+            placeholder="Wpisz miasto..."
             //debounceTimeout={1000}
             value={query}
             onChange={e=>{handleTyping(e.target.value); setQuery(e.target.value)}}

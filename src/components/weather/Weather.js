@@ -1,25 +1,23 @@
 import "./Weather.css"
-import {BsFillCloudSunFill} from 'react-icons/bs'
 
 export const Weather = ({data}) => {
     return(
         <div className="weather-container">
             <div className="weather-head">
                 <span className="weather-icon-temperature">
-                    <BsFillCloudSunFill size={70} className="icon"/>
+                    <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} />
                     <p>
-                        8<sup>°C</sup>
+                        {Math.round(data.main.temp)}°C
                     </p>
                 </span>
                 <span className="weather-info">
-                    <p>Odczywalne: 6°C</p>
-                    <p>Wilgotność: 85%</p>
-                    <p>Wiatr: 10 km/h</p>
-                    <p>Ciśnienie: 1022 hPa</p>
+                    <p>Odczywalne: {Math.round(data.main.feels_like)}</p>
+                    <p>Wilgotność: {data.main.humidity}%</p>
+                    <p>Wiatr: {data.wind.speed} km/h</p>
                 </span>
                 <span className="weather-city">
-                    <h3>Jasło</h3>
-                    <p>Przewaga chmur</p>
+                    <h3>{data.name}</h3>
+                    <p>{data.weather[0].description}</p>
                 </span>
             </div>
         </div>
