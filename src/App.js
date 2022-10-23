@@ -25,7 +25,6 @@ function App() {
       })
   }
 
-  console.log(forecastWeather)
 
   return (
     <div className="app-container">

@@ -11,7 +11,7 @@ export const Weather = ({data}) => {
                     </p>
                 </span>
                 <span className="weather-info">
-                    <p>Odczywalne: {Math.round(data.main.feels_like)}</p>
+                    <p>Odczuwalne: {Math.round(data.main.feels_like)}</p>
                     <p>Wilgotność: {data.main.humidity}%</p>
                     <p>Wiatr: {data.wind.speed} km/h</p>
                 </span>
