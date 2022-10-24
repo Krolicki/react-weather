@@ -1,26 +1,23 @@
-import debounce from "lodash.debounce"
-import { useMemo, useState } from "react"
-//import { AsyncPaginate } from "react-select-async-paginate"
+import { useState } from "react"
 import './Search.css'
 
-export const Search = ({onSearch}) => {
+export const Search = ({onSearch, setLoading}) => {
     const [query, setQuery] = useState("")
 
-    const changeValue = (value) => {
-        onSearch(value)
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        setLoading(true)
+        onSearch(query)
     }
 
-    const handleTyping = useMemo(
-        () => debounce(changeValue, 3000)
-    ,[])
-
     return (
-        <input 
-            placeholder="Wpisz miasto..."
-            //debounceTimeout={1000}
-            value={query}
-            onChange={e=>{handleTyping(e.target.value); setQuery(e.target.value)}}
-            className="search-input"
-        />
+        <form onSubmit={handleSubmit}>
+            <input 
+                placeholder="Wpisz miasto..."
+                value={query}
+                onChange={e=>{ setQuery(e.target.value)}}
+                className="search-input"
+            />
+        </form>
     )
 }

@@ -1,0 +1,26 @@
+.loader-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 70px;
+}
+
+.loader-container span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.loader-icon{
+    animation: spinner 1.5s infinite
+}
+
+@keyframes spinner  {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
