@@ -5,7 +5,25 @@ export const Forecast = ({data}) => {
     const [forecastDays, setForecastDays] = useState([])
 
     const getDayName = (dateString) => {
-        return new Date(dateString).toLocaleString('pl-pl', {weekday:'long'})
+        let fullName = new Date(dateString).toLocaleString('pl-pl', {weekday:'long'})
+        switch(fullName){
+            case 'poniedziałek':
+                return "pon."
+            case 'wtorek':
+                return "wt."
+            case 'środa':
+                return "śr."
+            case 'czwartek':
+                return "czw."
+            case 'piątek':
+                return "pt."
+            case 'sobota':
+                return "sob."
+            case 'niedziela':
+                return "niedz."
+            default:
+                return fullName
+        }
     }
 
     const getGroup = (id) =>{
@@ -28,9 +46,6 @@ export const Forecast = ({data}) => {
                 break
             case id >= 800 && id <= 804:
                 group = 5
-                break
-            case id >= 800 && id <= 804:
-                group = 6
                 break
             case id === 781:
                 group = 0
@@ -84,16 +99,21 @@ export const Forecast = ({data}) => {
 
     useEffect(()=>{
         assingnDays()
-    },[])
-    console.log(forecastDays)
+    },[data])
 
     return(
         <div className="forecast-container">
-            {data.list.map((day, index) => {
-                if(index === 0 || day.dt_txt.slice(8,10) !== data.list[index-1].dt_txt.slice(8,10))
-                return <div className="forecast-day-wraper" key={index}>
-                    <p className="forecast-dayname">{getDayName(day.dt_txt)}</p>
-                </div>
+            {forecastDays.map((day, index) => {
+                return (
+                    <div className="forecast-day-wraper" key={index}>
+                        <p className="forecast-dayname">{day.dayName}</p>
+                        <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${day.icon}@2x.png`} />
+                        <span>
+                            <p>{Math.round(day.maxTemp)}°</p>
+                            <p>{Math.round(day.minTemp)}°</p>
+                        </span>
+                    </div>
+                )
             })}
         </div>
     )

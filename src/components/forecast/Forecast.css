@@ -1,4 +1,33 @@
 .forecast-container{
     width: 100%;
     display: flex;
+    justify-content: space-between;
+}
+.forecast-day-wraper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.forecast-day-wraper p{
+    margin: 0;
+}
+
+.forecast-day-wraper img{
+    width: 75px;
+    height: 75px;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+
+.forecast-day-wraper span{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.forecast-day-wraper span :nth-child(2){
+    color: grey;
 }
