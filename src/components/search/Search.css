@@ -13,3 +13,10 @@
 .search-input:focus{
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.402);
 }
+
+@media screen and (max-width: 920px){
+    .search-input{
+        width: fit-content;
+        margin-inline: 20px;
+    }
+}

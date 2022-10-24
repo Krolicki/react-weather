@@ -6,20 +6,20 @@
     align-items: center;
 }
 
+.weather-info-wraper{
+    display: flex;
+    align-items: center;
+}
+
 .weather-icon-temperature{
     display: flex;
     align-items: center;
-    gap: 10px;
     height: 100%;
 }
 
 .weather-icon-temperature p{
     font-size: 3rem;
     margin: 0;
-}
-
-.icon{
-    max-height: 100%;
 }
 
 .weather-info{
@@ -44,4 +44,17 @@
 .weather-city p{
     color: rgb(143, 148, 154);
     margin: 0;
+}
+
+@media screen and (max-width: 920px){
+    .weather-city{
+        padding-left: 20px;
+        text-align: left;
+        order: -1;
+        width: 100%;
+    }
+    .weather-head{
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

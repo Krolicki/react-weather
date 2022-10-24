@@ -74,12 +74,12 @@ export const Forecast = ({data}) => {
                 if(dayGroup < group){
                     group = dayGroup 
                     weatherID = day.weather[0].id
-                    icon = day.weather[0].icon
+                    icon = `${day.weather[0].icon[0]}${day.weather[0].icon[1]}d`
                 }
                 else if(dayGroup === group){
                     if(day.weather[0].id > weatherID){
                         weatherID = day.weather[0].id
-                        icon = day.weather[0].icon
+                        icon = `${day.weather[0].icon[0]}${day.weather[0].icon[1]}d`
                     }
                 }
                 if(index === data.list.length - 1) daysTemp.push({dayName, maxTemp, minTemp, icon})

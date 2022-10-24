@@ -31,3 +31,12 @@
 .forecast-day-wraper span :nth-child(2){
     color: grey;
 }
+
+@media screen and (max-width: 920px){
+    .forecast-container{
+        overflow-x: scroll;
+    }
+    .forecast-day-wraper{
+        max-width: 22vw;
+    }
+}
