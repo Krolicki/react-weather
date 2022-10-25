@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
+    cursor: pointer;
 }
 
 .forecast-day-wraper p{
@@ -30,6 +31,11 @@
 
 .forecast-day-wraper span :nth-child(2){
     color: grey;
+}
+
+.active-day{
+    border-radius: 15px;
+    background-color: rgb(48, 49, 52);
 }
 
 @media screen and (max-width: 920px){

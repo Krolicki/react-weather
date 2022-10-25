@@ -1,30 +1,8 @@
 import { useEffect, useState } from "react"
 import "./Forecast.css"
 
-export const Forecast = ({data}) => {
+export const Forecast = ({data, activeDay}) => {
     const [forecastDays, setForecastDays] = useState([])
-
-    const getDayName = (dateString) => {
-        let fullName = new Date(dateString).toLocaleString('pl-pl', {weekday:'long'})
-        switch(fullName){
-            case 'poniedziałek':
-                return "pon."
-            case 'wtorek':
-                return "wt."
-            case 'środa':
-                return "śr."
-            case 'czwartek':
-                return "czw."
-            case 'piątek':
-                return "pt."
-            case 'sobota':
-                return "sob."
-            case 'niedziela':
-                return "niedz."
-            default:
-                return fullName
-        }
-    }
 
     const getGroup = (id) =>{
         let group = -1
@@ -67,7 +45,7 @@ export const Forecast = ({data}) => {
             group = 7
         data.list.forEach((day, index) => {
             if(index === 0 || day.dt_txt.slice(8,10) === data.list[index-1].dt_txt.slice(8,10)){
-                dayName = getDayName(day.dt_txt)
+                dayName = new Date(day.dt_txt).toLocaleString('pl-pl', {weekday:'short'})
                 if(day.main.temp > maxTemp) maxTemp = day.main.temp
                 if(day.main.temp < minTemp) minTemp = day.main.temp
                 let dayGroup = getGroup(day.weather[0].id)
@@ -105,7 +83,7 @@ export const Forecast = ({data}) => {
         <div className="forecast-container">
             {forecastDays.map((day, index) => {
                 return (
-                    <div className="forecast-day-wraper" key={index}>
+                    <div className={`forecast-day-wraper ${activeDay.slice(0,1) === day.dayName.slice(0,1) ? "active-day" : ''}`} key={index}>
                         <p className="forecast-dayname">{day.dayName}</p>
                         <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${day.icon}@2x.png`} />
                         <span>

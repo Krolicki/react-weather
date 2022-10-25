@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { Forecast } from './components/forecast/Forecast';
 import { Search } from './components/search/Search';
@@ -11,7 +11,12 @@ function App() {
   const [forecastWeather, setForecastWeather] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
   const [loading, setLoading] = useState(null)
-  
+  const [weatherDate, setWeatherDate] = useState("")
+
+  useEffect(()=>{
+      setWeatherDate(new Date().toLocaleString('pl-pl', {weekday:'long'}))
+  },[])
+
   const handleOnSearch = async (query) => {
     setErrorMsg(false)
     setCurrentWeather(null)
@@ -48,7 +53,7 @@ function App() {
       <Search onSearch={handleOnSearch} setLoading={setLoading}/>
       {loading && <Loader />}
       {currentWeather && <Weather data={currentWeather}/>}
-      {forecastWeather && <Forecast data={forecastWeather}/>}
+      {forecastWeather && <Forecast data={forecastWeather} activeDay={weatherDate}/>}
       {errorMsg && <ErrorMsg message={errorMsg}/>}
     </div>
   );

@@ -1,6 +1,13 @@
+import { useEffect, useState } from "react"
 import "./Weather.css"
 
 export const Weather = ({data}) => {
+    const [weatherDate, setWeatherDate] = useState("")
+
+    useEffect(()=>{
+        setWeatherDate(new Date().toLocaleString('pl-pl', {weekday:'long'}))
+    },[data])
+
     return(
         <div className="weather-container">
             <div className="weather-head">
@@ -18,7 +25,8 @@ export const Weather = ({data}) => {
                     </span>
                 </span>
                 <span className="weather-city">
-                    <h3>{data.name}</h3>
+                    <h3>{data.name}{data.sys.country !== "PL" ? `, ${data.sys.country}` : ""}</h3>
+                    <p>{weatherDate}</p>
                     <p>{data.weather[0].description}</p>
                 </span>
             </div>
