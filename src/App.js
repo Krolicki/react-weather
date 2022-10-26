@@ -48,12 +48,16 @@ function App() {
       })
   }
 
+  const changeDate = (date) => {
+    setWeatherDate(new Date(date).toLocaleString('pl-pl', {weekday:'long'}))
+  }
+
   return (
     <div className="app-container">
       <Search onSearch={handleOnSearch} setLoading={setLoading}/>
       {loading && <Loader />}
       {currentWeather && <Weather data={currentWeather}/>}
-      {forecastWeather && <Forecast data={forecastWeather} activeDay={weatherDate}/>}
+      {forecastWeather && <Forecast data={forecastWeather} activeDay={weatherDate} changeDate={changeDate}/>}
       {errorMsg && <ErrorMsg message={errorMsg}/>}
     </div>
   );

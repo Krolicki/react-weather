@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import "./Forecast.css"
 
-export const Forecast = ({data, activeDay}) => {
+export const Forecast = ({data, activeDay, changeDate}) => {
     const [forecastDays, setForecastDays] = useState([])
 
     const getGroup = (id) =>{
@@ -38,14 +38,33 @@ export const Forecast = ({data, activeDay}) => {
     const assingnDays = () => {
         let daysTemp = []
         let dayName = "",
+            fullDayName = "",
+            date = "",
             maxTemp = Number.MIN_VALUE,
             minTemp = Number.MAX_VALUE,
             icon = "",
             weatherID,
             group = 7
         data.list.forEach((day, index) => {
-            if(index === 0 || day.dt_txt.slice(8,10) === data.list[index-1].dt_txt.slice(8,10)){
-                dayName = new Date(day.dt_txt).toLocaleString('pl-pl', {weekday:'short'})
+            if(index !== 0 && day.dt_txt.slice(8,10) !== data.list[index-1].dt_txt.slice(8,10)){
+                daysTemp.push({dayName, fullDayName, maxTemp, minTemp, icon, date})
+                dayName = ""
+                maxTemp = Number.MIN_VALUE
+                minTemp = Number.MAX_VALUE
+                icon = ""
+                weatherID = null
+                group = 7
+            }
+
+            if(index === data.list.length - 1) {
+                daysTemp.push({dayName, fullDayName, maxTemp, minTemp, icon, date})
+            }
+            else{
+                if(dayName === "") {
+                    dayName = new Date(day.dt_txt).toLocaleString('pl-pl', {weekday:'short'})
+                    fullDayName = new Date(day.dt_txt).toLocaleString('pl-pl', {weekday:'long'})
+                    date = day.dt_txt
+                }
                 if(day.main.temp > maxTemp) maxTemp = day.main.temp
                 if(day.main.temp < minTemp) minTemp = day.main.temp
                 let dayGroup = getGroup(day.weather[0].id)
@@ -60,17 +79,9 @@ export const Forecast = ({data, activeDay}) => {
                         icon = `${day.weather[0].icon[0]}${day.weather[0].icon[1]}d`
                     }
                 }
-                if(index === data.list.length - 1) daysTemp.push({dayName, maxTemp, minTemp, icon})
             }
-            else{
-                daysTemp.push({dayName, maxTemp, minTemp, icon})
-                dayName = ""
-                maxTemp = Number.MIN_VALUE
-                minTemp = Number.MAX_VALUE
-                icon = ""
-                weatherID = null
-                group = 7
-            }
+            
+
         })
         setForecastDays(daysTemp)
     }
@@ -83,7 +94,11 @@ export const Forecast = ({data, activeDay}) => {
         <div className="forecast-container">
             {forecastDays.map((day, index) => {
                 return (
-                    <div className={`forecast-day-wraper ${activeDay.slice(0,1) === day.dayName.slice(0,1) ? "active-day" : ''}`} key={index}>
+                    <div 
+                        className={`forecast-day-wraper ${activeDay === day.fullDayName ? "active-day" : ''}`} 
+                        key={index}
+                        onClick={()=>changeDate(day.date)}
+                    >
                         <p className="forecast-dayname">{day.dayName}</p>
                         <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${day.icon}@2x.png`} />
                         <span>
