@@ -6,6 +6,7 @@ export const Weather = ({data}) => {
 
     useEffect(()=>{
         setWeatherDate(new Date().toLocaleString('pl-pl', {weekday:'long'}))
+        console.log(data)
     },[data])
 
     return(

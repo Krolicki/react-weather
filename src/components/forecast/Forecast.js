@@ -35,53 +35,103 @@ export const Forecast = ({data, activeDay, changeDate}) => {
         return group
     }
 
+    const dayTemplate = () => {
+        return {
+            name: data.city.name,
+            sys:{country:data.city.country},
+            dayName: "",
+            fullDayName: "",
+            dt_txt: "",
+            main: {
+                temp_max: Number.MIN_VALUE,
+                temp_min: Number.MAX_VALUE,
+                feels_like: 0,
+                humidity: 0,
+            },
+            wind: {speed:0},
+            weather: [{
+                id: null,
+                icon: "",
+                description: ""
+            }],
+            group: 7
+        }
+    }
+
     const assingnDays = () => {
         let daysTemp = []
-        let dayName = "",
-            fullDayName = "",
-            date = "",
-            maxTemp = Number.MIN_VALUE,
-            minTemp = Number.MAX_VALUE,
-            icon = "",
-            weatherID,
-            group = 7
-        data.list.forEach((day, index) => {
-            if(index !== 0 && day.dt_txt.slice(8,10) !== data.list[index-1].dt_txt.slice(8,10)){
-                daysTemp.push({dayName, fullDayName, maxTemp, minTemp, icon, date})
-                dayName = ""
-                maxTemp = Number.MIN_VALUE
-                minTemp = Number.MAX_VALUE
-                icon = ""
-                weatherID = null
-                group = 7
+        // let day = {
+        //     name: data.city.name,
+        //     sys:{country:data.city.country},
+        //     dayName: "",
+        //     fullDayName: "",
+        //     dt_txt: "",
+        //     main: {
+        //         temp_max: Number.MIN_VALUE,
+        //         temp_min: Number.MAX_VALUE,
+        //         feels_like: 0,
+        //         humidity: 0,
+        //     },
+        //     wind: {speed:0},
+        //     weather: [{
+        //         id: null,
+        //         icon: "",
+        //         description: ""
+        //     }],
+        //     group: 7
+        // }
+        let day = dayTemplate()
+        data.list.forEach((entry, index) => {
+            if(index !== 0 && entry.dt_txt.slice(8,10) !== data.list[index-1].dt_txt.slice(8,10)){
+                let wholeDay = {...day}
+                daysTemp.push(wholeDay)
+                day = dayTemplate()
+                // day.dayName = ""
+                // day.main.temp_max = Number.MIN_VALUE
+                // day.main.temp_min = Number.MAX_VALUE
+                // day.main.feels_like = 0
+                // day.main.humidity = 0
+                // day.wind.speed = 0
+                // day.weather[0].icon = ""
+                // day.weather[0].description = ""
+                // day.weather[0].id = null
+                // day.group = 7
             }
 
             if(index === data.list.length - 1) {
-                daysTemp.push({dayName, fullDayName, maxTemp, minTemp, icon, date})
+                let wholeDay = {...day}
+                daysTemp.push(wholeDay)
+                day = dayTemplate()
             }
             else{
-                if(dayName === "") {
-                    dayName = new Date(day.dt_txt).toLocaleString('pl-pl', {weekday:'short'})
-                    fullDayName = new Date(day.dt_txt).toLocaleString('pl-pl', {weekday:'long'})
-                    date = day.dt_txt
+                if(day.dayName === "") {
+                    day.dayName = new Date(entry.dt_txt).toLocaleString('pl-pl', {weekday:'short'})
+                    day.fullDayName = new Date(entry.dt_txt).toLocaleString('pl-pl', {weekday:'long'})
+                    day.dt_txt = entry.dt_txt
                 }
-                if(day.main.temp > maxTemp) maxTemp = day.main.temp
-                if(day.main.temp < minTemp) minTemp = day.main.temp
-                let dayGroup = getGroup(day.weather[0].id)
-                if(dayGroup < group){
-                    group = dayGroup 
-                    weatherID = day.weather[0].id
-                    icon = `${day.weather[0].icon[0]}${day.weather[0].icon[1]}d`
+                if(entry.main.temp > day.main.temp_max) {
+                    day.main.temp_max = entry.main.temp
+                    day.main.feels_like = entry.main.feels_like
                 }
-                else if(dayGroup === group){
-                    if(day.weather[0].id > weatherID){
-                        weatherID = day.weather[0].id
-                        icon = `${day.weather[0].icon[0]}${day.weather[0].icon[1]}d`
+                if(entry.main.temp < day.main.temp_min) day.main.temp_min = entry.main.temp
+                if(entry.wind.speed > day.wind.speed) day.wind.speed = entry.wind.speed
+                if(entry.main.humidity > day.humidity) day.humidity = entry.main.humidity
+
+                let dayGroup = getGroup(entry.weather[0].id)
+                if(dayGroup < day.group){
+                    day.group = dayGroup 
+                    day.weather[0].id = entry.weather[0].id
+                    day.weather[0].description = entry.weather[0].description
+                    day.weather[0].icon = `${entry.weather[0].icon[0]}${entry.weather[0].icon[1]}d`
+                }
+                else if(dayGroup === day.group){
+                    if(entry.weather[0].id > day.weather[0].id){
+                        day.weather[0].id = entry.weather[0].id
+                        day.weather[0].description = entry.weather[0].description
+                        day.weather[0].icon = `${entry.weather[0].icon[0]}${entry.weather[0].icon[1]}d`
                     }
                 }
             }
-            
-
         })
         setForecastDays(daysTemp)
     }
@@ -97,13 +147,13 @@ export const Forecast = ({data, activeDay, changeDate}) => {
                     <div 
                         className={`forecast-day-wraper ${activeDay === day.fullDayName ? "active-day" : ''}`} 
                         key={index}
-                        onClick={()=>changeDate(day.date)}
+                        onClick={()=>{changeDate(day.dt_txt); console.log(day)}}
                     >
                         <p className="forecast-dayname">{day.dayName}</p>
-                        <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${day.icon}@2x.png`} />
+                        <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} />
                         <span>
-                            <p>{Math.round(day.maxTemp)}°</p>
-                            <p>{Math.round(day.minTemp)}°</p>
+                            <p>{Math.round(day.main.temp_max)}°</p>
+                            <p>{Math.round(day.main.temp_min)}°</p>
                         </span>
                     </div>
                 )
