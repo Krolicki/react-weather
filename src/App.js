@@ -21,6 +21,7 @@ function App() {
     setErrorMsg(false)
     setCurrentWeather(null)
     setForecastWeather(null)
+    setWeatherDate(new Date().toLocaleString('pl-pl', {weekday:'long'}))
     setLoading(true)
     const getCurrentWeather = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${query}&lang=pl&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`)
     const getForecastWeather = fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${query}&lang=pl&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
@@ -57,7 +58,13 @@ function App() {
       <Search onSearch={handleOnSearch} setLoading={setLoading}/>
       {loading && <Loader />}
       {currentWeather && <Weather data={currentWeather}/>}
-      {forecastWeather && <Forecast data={forecastWeather} activeDay={weatherDate} changeDate={changeDate}/>}
+      {forecastWeather && 
+        <Forecast 
+          data={forecastWeather} 
+          activeDay={weatherDate} 
+          changeDate={changeDate} 
+          changeWeather={setCurrentWeather}
+        />}
       {errorMsg && <ErrorMsg message={errorMsg}/>}
     </div>
   );

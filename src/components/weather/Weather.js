@@ -5,8 +5,7 @@ export const Weather = ({data}) => {
     const [weatherDate, setWeatherDate] = useState("")
 
     useEffect(()=>{
-        setWeatherDate(new Date().toLocaleString('pl-pl', {weekday:'long'}))
-        console.log(data)
+        setWeatherDate(data?.fullDayName ? data.fullDayName : new Date().toLocaleString('pl-pl', {weekday:'long'}))
     },[data])
 
     return(
@@ -16,7 +15,7 @@ export const Weather = ({data}) => {
                     <span className="weather-icon-temperature">
                         <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} />
                         <p>
-                            {Math.round(data.main.temp)}°C
+                            {data.main?.temp ? Math.round(data.main.temp) : Math.round(data.main.temp_max)}°C
                         </p>
                     </span>
                     <span className="weather-info">
