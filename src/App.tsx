@@ -9,15 +9,15 @@ import { Loader } from './components/loader/Loader';
 function App() {
   const [currentWeather, setCurrentWeather] = useState(null)
   const [forecastWeather, setForecastWeather] = useState(null)
-  const [errorMsg, setErrorMsg] = useState(null)
-  const [loading, setLoading] = useState(null)
+  const [errorMsg, setErrorMsg] = useState<string | boolean | null>(null)
+  const [loading, setLoading] = useState(false)
   const [weatherDate, setWeatherDate] = useState("")
 
   useEffect(()=>{
       setWeatherDate(new Date().toLocaleString('pl-pl', {weekday:'long'}))
   },[])
 
-  const handleOnSearch = async (query) => {
+  const handleOnSearch = async (query :any) => {
     setErrorMsg(false)
     setCurrentWeather(null)
     setForecastWeather(null)
@@ -49,7 +49,7 @@ function App() {
       })
   }
 
-  const changeDate = (date) => {
+  const changeDate = (date : Date) => {
     setWeatherDate(new Date(date).toLocaleString('pl-pl', {weekday:'long'}))
   }
 
@@ -65,7 +65,7 @@ function App() {
           changeDate={changeDate} 
           changeWeather={setCurrentWeather}
         />}
-      {errorMsg && <ErrorMsg message={errorMsg}/>}
+      {typeof errorMsg === "string" && <ErrorMsg message={errorMsg}/>}
     </div>
   );
 }
