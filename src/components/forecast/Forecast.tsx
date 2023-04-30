@@ -1,10 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import "./Forecast.css"
+import { ListItem, DayFetch, DayTemplate } from "../../App"
 
-export const Forecast = ({data, activeDay, changeDate, changeWeather}) => {
-    const [forecastDays, setForecastDays] = useState([])
+type ForecastProps = {
+    data: DayFetch<ListItem>
+    activeDay: string
+    changeDate: (date : string) => void
+    changeWeather: (day : DayTemplate) => void
+}
 
-    const getGroup = (id) =>{
+export const Forecast = ({data, activeDay, changeDate, changeWeather} : ForecastProps) => {
+    const [forecastDays, setForecastDays] = useState<DayTemplate[]>([])
+
+    const getGroup = (id : number) =>{
         let group = -1
         switch(true){
             case id >= 200 && id <= 232:
@@ -34,34 +42,36 @@ export const Forecast = ({data, activeDay, changeDate, changeWeather}) => {
         }
         return group
     }
+    
+    const assingnDays = useCallback(() => {
+        let daysTemp : DayTemplate[] = []
 
-    const dayTemplate = () => {
-        return {
-            name: data.city.name,
-            sys:{country:data.city.country},
-            dayName: "",
-            fullDayName: "",
-            dt_txt: "",
-            main: {
-                temp_max: Number.MIN_VALUE,
-                temp_min: Number.MAX_VALUE,
-                feels_like: 0,
-                humidity: 0,
-            },
-            wind: {speed:0},
-            weather: [{
-                id: null,
-                icon: "",
-                description: ""
-            }],
-            group: 7
+        const dayTemplate = () : DayTemplate=> {
+            return {
+                name: data.city.name,
+                sys:{country:data.city.country},
+                dayName: "",
+                fullDayName: "",
+                dt_txt: "",
+                main: {
+                    temp_max: Number.MIN_VALUE,
+                    temp_min: Number.MAX_VALUE,
+                    feels_like: 0,
+                    humidity: 0,
+                },
+                wind: {speed:0},
+                weather: [{
+                    id: null,
+                    icon: "",
+                    description: ""
+                }],
+                group: 7
+            }
         }
-    }
 
-    const assingnDays = () => {
-        let daysTemp = []
         let day = dayTemplate()
-        data.list.forEach((entry, index) => {
+
+        data.list.forEach((entry, index : number) => {
             if(index !== 0 && entry.dt_txt.slice(8,10) !== data.list[index-1].dt_txt.slice(8,10)){
                 let wholeDay = {...day}
                 daysTemp.push(wholeDay)
@@ -86,29 +96,32 @@ export const Forecast = ({data, activeDay, changeDate, changeWeather}) => {
                 if(entry.main.temp < day.main.temp_min) day.main.temp_min = entry.main.temp
                 if(entry.wind.speed > day.wind.speed) day.wind.speed = entry.wind.speed
                 if(entry.main.humidity > day.main.humidity) day.main.humidity = entry.main.humidity
-
-                let dayGroup = getGroup(entry.weather[0].id)
-                if(dayGroup < day.group){
-                    day.group = dayGroup 
-                    day.weather[0].id = entry.weather[0].id
-                    day.weather[0].description = entry.weather[0].description
-                    day.weather[0].icon = `${entry.weather[0].icon[0]}${entry.weather[0].icon[1]}d`
-                }
-                else if(dayGroup === day.group){
-                    if(entry.weather[0].id > day.weather[0].id){
+                let dayGroup
+                if(entry.weather[0].id){
+                    dayGroup = getGroup(entry.weather[0].id)
+                    if(dayGroup < day.group){
+                        day.group = dayGroup 
                         day.weather[0].id = entry.weather[0].id
                         day.weather[0].description = entry.weather[0].description
                         day.weather[0].icon = `${entry.weather[0].icon[0]}${entry.weather[0].icon[1]}d`
+                    }
+                    else if(dayGroup === day.group){
+                        if(day.weather[0].id)
+                        if(entry.weather[0].id > day.weather[0].id){
+                            day.weather[0].id = entry.weather[0].id
+                            day.weather[0].description = entry.weather[0].description
+                            day.weather[0].icon = `${entry.weather[0].icon[0]}${entry.weather[0].icon[1]}d`
+                        }
                     }
                 }
             }
         })
         setForecastDays(daysTemp)
-    }
+    },[data])
 
     useEffect(()=>{
         assingnDays()
-    },[data])
+    },[assingnDays])
 
     return(
         <div className="forecast-container">
