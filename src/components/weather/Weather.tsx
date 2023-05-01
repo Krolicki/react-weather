@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import "./Weather.css"
+import {  DayTemplate } from "../../App"
 
-export const Weather = ({data}) => {
+export const Weather = ({data} : {data : DayTemplate}) => {
     const [weatherDate, setWeatherDate] = useState("")
 
     useEffect(()=>{

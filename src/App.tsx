@@ -17,6 +17,7 @@ export type DayTemplate = {
     temp_min: number;
     feels_like: number;
     humidity: number;
+    temp?: number
   };
   wind: { speed: number };
   weather: [
@@ -67,7 +68,7 @@ function App() {
     setWeatherDate(new Date().toLocaleString('pl-pl', { weekday: 'long' }))
   }, [])
 
-  const handleOnSearch = async (query: any) => {
+  const handleOnSearch = async (query: string) => {
     setErrorMsg(false)
     setCurrentWeather(null)
     setForecastWeather(null)
