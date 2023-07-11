@@ -74,8 +74,8 @@ function App() {
     setForecastWeather(null)
     setWeatherDate(new Date().toLocaleString('pl-pl', { weekday: 'long' }))
     setLoading(true)
-    const getCurrentWeather = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${query}&lang=pl&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`)
-    const getForecastWeather = fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${query}&lang=pl&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
+    const getCurrentWeather = fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&lang=pl&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`)
+    const getForecastWeather = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${query}&lang=pl&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
     Promise.all([getCurrentWeather, getForecastWeather])
       .then(async (response) => {
         setLoading(true)

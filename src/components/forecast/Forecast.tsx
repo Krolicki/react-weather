@@ -136,7 +136,7 @@ export const Forecast = ({data, activeDay, changeDate, changeWeather} : Forecast
                         }}
                     >
                         <p className="forecast-dayname">{day.dayName}</p>
-                        <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} />
+                        <img alt="weather-icon" src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} />
                         <span>
                             <p>{Math.round(day.main.temp_max)}°</p>
                             <p>{Math.round(day.main.temp_min)}°</p>

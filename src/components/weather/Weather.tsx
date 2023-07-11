@@ -14,7 +14,7 @@ export const Weather = ({data} : {data : DayTemplate}) => {
             <div className="weather-head">
                 <span className="weather-info-wraper">
                     <span className="weather-icon-temperature">
-                        <img alt="weather-icon" src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} />
+                        <img alt="weather-icon" src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} />
                         <p>
                             {data.main?.temp ? Math.round(data.main.temp) : Math.round(data.main.temp_max)}°C
                         </p>
