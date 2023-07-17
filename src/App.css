@@ -2,3 +2,8 @@
     max-width: 700px;
     margin: 20px auto;
 }
+@media screen and (max-width: 700px){
+    .app-container{
+        max-width: 90vw;
+    }
+}
